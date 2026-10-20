@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "multi agent trip planner"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pytest>=9.1.1",
+]
 
 [build-system]
 requires = ["setuptools>=61.0"]
