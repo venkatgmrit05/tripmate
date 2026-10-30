@@ -14,7 +14,7 @@ load_dotenv()
 def tavily_client():
     client=None
     try:
-        print("\n\n**using context manager**")
+        # print("\n\n**using context manager**")
         client = TavilyClient(
             api_key=os.getenv("TAVILY_API_KEY")
         )
@@ -23,12 +23,12 @@ def tavily_client():
         print(f"error : {e}")
         raise 
     finally:
-        print("cleaning up")
+        # print("cleaning up")
         if client is not None:
             client.close()
 
 
-def tavily_search(query,threshold=0.7,snippet_len=300,max_results=5)-> str :
+def tavily_search(query:str,threshold:float=0.7,snippet_len:int=300,max_results:int=5)-> str :
 
 
     with tavily_client() as client:
@@ -54,7 +54,7 @@ def tavily_search(query,threshold=0.7,snippet_len=300,max_results=5)-> str :
         results_ = sorted(results_,reverse=True)
 
         results_ = [
-            f"{i}.**{title}**\n{url}\n{snippet} \n score:{score}" for score,i,title,url,snippet in results_
+            f"\n\n{i}.**{title}**\nurl : {url}\nsnippet : {snippet}\n score:{score}" for score,i,title,url,snippet in results_
         ]
 
         return "\n\n".join(results_)
@@ -65,3 +65,4 @@ if __name__=="__main__":
     
     ans = tavily_search("who let the dogs out?",snippet_len=40,threshold=0.8,max_results=20)
     print(ans)
+
