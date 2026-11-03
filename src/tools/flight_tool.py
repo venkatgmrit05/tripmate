@@ -466,7 +466,7 @@ def format_flight(flight: dict):
             """.strip()
 
 
-def search_flights(query: str, limit: int = 10):
+def search_flights(query: str, limit: int = 10) ->str:
     """Fetch live flights matching a query and return formatted results or an error."""
     if not API_KEY:
         return (
