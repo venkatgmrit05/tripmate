@@ -141,7 +141,49 @@ def itinerary_agent(state:TravelState) ->dict:
     }
 
 
+# =============
+# FINAL AGENT
+# =============
 
+def final_agent(state:TravelState)-> dict:
+
+    prompt = f"""
+    
+    Generate a full and final travel response for the user.
+
+    user request : \n {state["user_query"]}\n
+    flight results : \n {state["flight_results"]}\n
+    hotel results : \n {state["hotel_results"]}\n
+
+    Format the final answer beautifully using these sections:
+
+    1. Trip Summary
+    2. Flight Information
+    3. Hotel Suggestions
+    4. Day-by-Day Itinerary
+    5. Estimated Budget
+    6. Final Recommendations
 
     
+    Important:
+    - Be clear and practical.
+    - Mention that live flight API may not provide ticket prices if pricing is unavailable.
+    - Keep the response useful for real travel planning.
+
+    """
+
+    response = llm.invoke(
+        [
+            SystemMessage(content="You are a professional AI travel booking assistant.You have been trained exclusively on travel industry."),
+            HumanMessage(content=prompt)
+        ]
+    )
+
+    return {
+        "messages":response,
+        "llm_calls":state.get("llm_calls")+1
+    }
+
+
+
 
