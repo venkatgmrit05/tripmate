@@ -106,5 +106,42 @@ def hotel_agent(state:TravelState) ->dict:
 
 
 
+def itinerary_agent(state:TravelState) ->dict:
+    prompt = f"""
+    
+        create a complete travel itinerary.
 
+        User query : {
+            state['user_query']
+        }
+
+        Flight results : {
+            state['flight_results']
+        }
+
+        Hotel results : {
+            state['hotel_results']
+        }
+
+    Make the itinerary complete. Do a comparative and competitve search within budget. If no budget is mentioned, categorize itinerary into economy, mid and luxury categories.
+    """
+
+    response = llm.invoke(
+        [
+            SystemMessage(content="You are a travel agent with decades of experience and connections in the travel industry across the globe. You have "),
+            HumanMessage(content=prompt)
+        ]
+    )
+
+
+    return {
+        "itinerary" : response,
+        "messages":[response],
+        "llm_calls": state.get("llm_calls")+1
+    }
+
+
+
+
+    
 
